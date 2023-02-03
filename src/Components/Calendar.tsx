@@ -56,6 +56,7 @@ const Meeting = styled.div`
   flex-grow: 1;
   padding: 0.1rem;
   animation: meeting-animate 0.3s linear;
+  padding: 0.25rem;
 `;
 
 interface CalendarProps {
@@ -73,16 +74,15 @@ const Calendar = ({ meetings }: CalendarProps) => {
         <Fragment key={"time" + time}>
           <TimeLabel>{`${time + 9}:00`}</TimeLabel>
           {Object.keys(DAY_OF_WEEK).map((day) => (
-            <TimeContainer id={`time${time + 9}` + day}>
+            <TimeContainer key={`time${time + 9}` + day}>
               {meetings
                 .filter((meeting) => {
-                  console.log(meeting);
                   return (
                     meeting.dayOfWeek === day && +meeting.time === time + 9
                   );
                 })
-                .map((meeting) => (
-                  <Meeting>{meeting.name}</Meeting>
+                .map((meeting, idx) => (
+                  <Meeting key={meeting.name + idx}>{meeting.name}</Meeting>
                 ))}
             </TimeContainer>
           ))}
