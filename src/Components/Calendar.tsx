@@ -3,18 +3,40 @@ import styled from "styled-components";
 import { DAY_OF_WEEK, MeetingEvent } from "../utils/types";
 
 const CalendarContainer = styled.div`
-  width: 1000px;
+  * {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+  }
+  border: 1px solid lightgray;
+  width: 1500px;
   display: grid;
-  grid-template-columns: repeat(6, 20%);
+  grid-template-columns: auto repeat(5, 2fr);
   grid-template-rows: repeat(11, 80px);
 `;
 
 const TimeContainer = styled.div`
   display: flex;
   border-right: 1px solid grey;
-  padding: 0.1rem;
   gap: 0.1rem;
   flex-wrap: wrap;
+  width: 100%;
+  padding: 0.1rem;
+  :nth-child(6n + 6) {
+    border-right: none;
+  }
+`;
+
+const DayLabel = styled(TimeContainer)`
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid gray;
+`;
+
+const TimeLabel = styled(TimeContainer)`
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
 `;
 
 const Meeting = styled.div`
@@ -43,13 +65,13 @@ interface CalendarProps {
 const Calendar = ({ meetings }: CalendarProps) => {
   return (
     <CalendarContainer>
-      <TimeContainer></TimeContainer>
+      <DayLabel></DayLabel>
       {Object.keys(DAY_OF_WEEK).map((day) => (
-        <TimeContainer key={day}>{day}</TimeContainer>
+        <DayLabel key={day}>{day}</DayLabel>
       ))}
       {Array.from({ length: 10 }, (_, time) => (
         <Fragment key={"time" + time}>
-          <TimeContainer>{`${time + 9}:00`}</TimeContainer>
+          <TimeLabel>{`${time + 9}:00`}</TimeLabel>
           {Object.keys(DAY_OF_WEEK).map((day) => (
             <TimeContainer id={`time${time + 9}` + day}>
               {meetings
